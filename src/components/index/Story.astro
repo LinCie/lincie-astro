@@ -1,0 +1,165 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+import avatar from "@/assets/avatar.png";
+
+interface Icons {
+  name: string;
+  label: string;
+  href: string;
+}
+
+const icons: Icons[] = [
+  {
+    name: "mdi:github",
+    label: "My Github",
+    href: "https://github.com/LinCie",
+  },
+  {
+    name: "mdi:linkedin",
+    label: "My Linkedin",
+    href: "https://linkedin.com/in/lincie",
+  },
+  {
+    name: "mdi:instagram",
+    label: "My Instagram",
+    href: "https://www.instagram.com/lincie.me",
+  },
+  {
+    name: "mdi:twitter",
+    label: "My Twitter",
+    href: "https://x.com/Ke_Lin_Cie",
+  },
+  {
+    name: "mdi:spotify",
+    label: "My Spotify",
+    href: "https://open.spotify.com/user/31oyxnawj25zik4xbwog3emhjsmi",
+  },
+  {
+    name: "mdi:steam",
+    label: "My Steam",
+    href: "https://steamcommunity.com/id/LinCie",
+  },
+];
+
+interface MusicArtists {
+  name: string;
+  href: string;
+}
+
+const contemporaryArtists: MusicArtists[] = [
+  {
+    name: "haruka nakamura",
+    href: "https://open.spotify.com/artist/52R2tXlJMDDDYcpBSnn3k4",
+  },
+  {
+    name: "Akira Kosemura",
+    href: "https://open.spotify.com/artist/4n1lW38WKgyPEIZowQ3AND",
+  },
+  {
+    name: "yutaka hirasaka",
+    href: "https://open.spotify.com/artist/0stmdx2IonUUUIlWQ9bLYZ",
+  },
+];
+
+const artistLinks = contemporaryArtists.map(
+  (a) =>
+    `<a href="${a.href}" target="_blank" rel="noopener noreferrer" class="text-link hover:opacity-95 active:opacity-90">${a.name}</a>`,
+);
+
+const formattedArtists =
+  artistLinks.length > 1
+    ? artistLinks.slice(0, -1).join(", ") + " and " + artistLinks.at(-1)
+    : artistLinks[0];
+---
+
+<script>
+  import { animate, stagger } from "animejs";
+
+  animate("#story-title", {
+    opacity: [0, 1],
+    translateY: [20, 0],
+    easing: "easeOutQuad",
+    duration: 800,
+  });
+
+  animate("#story-texts p", {
+    opacity: [0, 1],
+    translateY: [20, 0],
+    easing: "easeOutQuad",
+    duration: 1000,
+    delay: stagger(200),
+  });
+
+  animate("#story-avatar", {
+    scale: [0.9, 1],
+    opacity: [0, 1],
+    easing: "easeOutQuad",
+    duration: 1200,
+  });
+
+  animate("#story-social-container a", {
+    opacity: [0, 1],
+    translateY: [20, 0],
+    easing: "easeOutQuad",
+    duration: 1000,
+    delay: stagger(100),
+  });
+</script>
+
+<section
+  id="story-section"
+  class="mx-auto flex max-w-2xl flex-col-reverse gap-4 md:flex-row"
+>
+  <div class="space-y-3">
+    <h1 id="story-title" class="text-xl font-semibold">⛅ I'm LinCie</h1>
+    <div id="story-texts" class="space-y-2 text-sm">
+      <p>
+        A marketing fresh graduate and self-taught developer from Indonesia.
+        With 2 years of programming experience, I've built websites, a Discord
+        bot, and several APIs for personal and friend's projects. My biggest
+        strength is TypeScript, with a few experience in C, Python, PHP, and
+        SQL.
+      </p>
+      <p>
+        I love playing video games, mainly Rhythm, RPG and RTS games. I'm also a
+        huge anime fan, especially Iyashikei and CGDCT genre. I mainly listen to
+        Contemporary Classical artists like <Fragment
+          set:html={formattedArtists}
+        />.
+      </p>
+    </div>
+  </div>
+  <div class="flex flex-col items-center space-y-3 md:space-y-2">
+    <Image
+      id="story-avatar"
+      src={avatar}
+      height={600}
+      width={600}
+      alt=""
+      aria-hidden
+      class="rounded-2xl"
+    />
+    <div
+      id="story-social-container"
+      class="flex flex-wrap justify-center gap-2 md:gap-1"
+    >
+      {
+        icons.map((icon) => (
+          <a
+            href={icon.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={icon.label}
+          >
+            <Icon
+              name={icon.name}
+              class="size-10 rounded-full p-1 hover:bg-white/10 hover:opacity-95 active:opacity-90 md:size-7 md:p-0.5"
+            />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

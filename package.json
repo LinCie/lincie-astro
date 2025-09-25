@@ -9,6 +9,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.13.7"
+    "@fontsource-variable/merienda": "^5.2.7",
+    "@tailwindcss/vite": "^4.1.13",
+    "animejs": "^4.1.3",
+    "astro": "^5.13.7",
+    "astro-icon": "^1.1.5",
+    "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.14"
   }
 }

@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #252314;
+  --color-foreground: #d2b89f;
+  --color-primary: #df9854;
+  --color-link: #9c8466;
+
+  --font-merienda: "Merienda Variable", cursive;
+}
