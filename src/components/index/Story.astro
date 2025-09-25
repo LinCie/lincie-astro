@@ -148,14 +148,10 @@ const formattedArtists =
     >
       {
         icons.map((icon) => (
-          <a
-            href={icon.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={icon.label}
-          >
+          <a href={icon.href} target="_blank" rel="noopener noreferrer">
             <Icon
               name={icon.name}
+              aria-label={icon.label}
               class="size-10 rounded-full p-1 hover:bg-white/10 hover:opacity-95 active:opacity-90 md:size-7 md:p-0.5"
             />
           </a>
