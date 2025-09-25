@@ -2,15 +2,86 @@
 import "@fontsource-variable/merienda";
 
 import "../styles/global.css";
+
+const { title, description } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+import { SEO } from "astro-seo";
 ---
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+
+    <SEO
+      title={title || "LinCie"}
+      titleTemplate="%s | LinCie"
+      description={description ||
+        "LinCie is a marketing undergrad and self-taught developer from Indonesia. With nearly 2 years of experience, they've built websites, a Discord bot, a mobile app, and several APIs. Specialized in TypeScript, with experience in C, Python, PHP, SQL, and Dart."}
+      canonical={Astro.url.href}
+      openGraph={{
+        basic: {
+          title: "LinCie | Home",
+          url: Astro.url.href,
+          type: "website",
+          image: "https://lincie.me/og-image.png",
+        },
+        image: {
+          url: "https://lincie.me/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: "LinCie",
+        },
+        optional: {
+          locale: "en_US",
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@Ke_Lin_Cie",
+        creator: "@Ke_Lin_Cie",
+        title: "LinCie | Home",
+        description:
+          "Marketing undergrad & self-taught dev from Indonesia. Built websites, a Discord bot, mobile app & APIs. TypeScript specialist.",
+        image: "https://lincie.me/twitter-card.png",
+        imageAlt: "A promotional image for LinCie's portfolio.",
+      }}
+      extend={{
+        meta: [
+          { name: "author", content: "LinCie", property: "author" },
+          { name: "creator", content: "LinCie" },
+          { name: "publisher", content: "LinCie" },
+          {
+            name: "googlebot",
+            content:
+              "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
+          },
+        ],
+        link: [{ rel: "author", href: "https://lincie.me" }],
+      }}
+    />
+
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link
+      rel="android-chrome"
+      sizes="192x192"
+      href="/android-chrome-192x192.png"
+    />
+    <link
+      rel="android-chrome"
+      sizes="512x512"
+      href="/android-chrome-512x512.png"
+    />
+
+    <slot name="head" />
   </head>
   <body class="font-merienda text-foreground bg-background">
     <slot />
