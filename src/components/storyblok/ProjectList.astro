@@ -1,6 +1,7 @@
 ---
 import { storyblokEditable } from "@storyblok/astro";
 import { useStoryblokApi } from "@storyblok/astro";
+import { CldImage } from "astro-cloudinary";
 
 import type { ProjectStoriesResponse } from "@/types/project";
 
@@ -16,6 +17,7 @@ const { data }: { data: ProjectStoriesResponse } = await storyblokApi.get(
 
 const posts = data.stories.map((story) => {
   return {
+    previewImageId: story.content.preview_image_id,
     title: story.content.title,
     date: new Date(story.published_at).toLocaleDateString("en-US", {
       dateStyle: "full",
@@ -28,13 +30,25 @@ const posts = data.stories.map((story) => {
 const { blok } = Astro.props;
 ---
 
-<ul {...storyblokEditable(blok)}>
+<ul
+  {...storyblokEditable(blok)}
+  class="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4"
+>
   {
     posts.map((post) => (
-      <li>
-        <time>{post.date}</time>
-        <a href={post.slug}>{post.title}</a>
-        <p>{post.description}</p>
+      <li class="group relative aspect-video overflow-hidden rounded-md">
+        <a href={post.slug}>
+          <CldImage
+            src={post.previewImageId}
+            width={1280}
+            height={720}
+            alt={post.title}
+            class="absolute inset-0 object-cover transition group-hover:brightness-50"
+          />
+          <div class="bg-background/15 absolute inset-x-0 bottom-0 p-2 opacity-0 backdrop-blur-sm transition group-hover:opacity-100">
+            <h2 class="text-sm">{post.title}</h2>
+          </div>
+        </a>
       </li>
     ))
   }

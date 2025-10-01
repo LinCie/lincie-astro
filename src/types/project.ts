@@ -4,6 +4,7 @@ import type { Story, StoryblokResponse } from "./storyblokBase";
 export type ProjectPost = {
   _uid: string;
   component: "projects";
+  preview_image_id: string;
   title: TextTypes;
   description: TextTypes;
   content: StoryblokRichTextNode<string>;

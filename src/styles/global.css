@@ -1,9 +1,15 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --color-background: #2e3440;
+  --color-background-elevated: #3b4252;
+  --color-background-active: #434c5e;
   --color-foreground: #eceff4;
+  --color-foreground-subtle: #e5e9f0;
+  --color-foreground-elevated: #d8dee9;
   --color-primary: #88c0d0;
+  --color-secondary: #81a1c1;
   --color-link: #8fbcbb;
 
   --font-merienda: "Merienda Variable", cursive;

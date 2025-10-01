@@ -1,0 +1,61 @@
+---
+import { useStoryblokApi, renderRichText } from "@storyblok/astro";
+import { CldImage } from "astro-cloudinary";
+
+import MainLayout from "@/layouts/main.layout.astro";
+import ContentRenderer from "@/components/storyblok/ContentRenderer.astro";
+import type { ProjectStory } from "@/types/project";
+
+export async function getStaticPaths() {
+  const storyblokApi = useStoryblokApi();
+
+  const { data } = await storyblokApi.get("cdn/stories", {
+    content_type: "projects",
+    version: import.meta.env.DEV ? "draft" : "published",
+  });
+
+  const stories: ProjectStory[] = Object.values(data.stories);
+
+  return stories.map((story) => {
+    return {
+      params: { slug: story.slug },
+    };
+  });
+}
+
+const storyblokApi = useStoryblokApi();
+const { slug } = Astro.params;
+const { data } = await storyblokApi.get(`cdn/stories/projects/${slug}`, {
+  version: import.meta.env.DEV ? "draft" : "published",
+});
+
+const story: ProjectStory = data.story;
+
+const project = {
+  previewImageId: story.content.preview_image_id,
+  title: story.content.title,
+  date: new Date(story.published_at).toLocaleDateString("en-US", {
+    dateStyle: "full",
+  }),
+  description: story.content.description,
+  slug: story.full_slug,
+  content: renderRichText(story.content.content, {}),
+};
+---
+
+<MainLayout title={project.title} description={project.description}>
+  <main class="mx-auto my-16 w-full max-w-2xl space-y-5 px-4 md:px-0">
+    <article>
+      <CldImage
+        src={project.previewImageId}
+        width={1280}
+        height={720}
+        alt={`Image for ${project.title}`}
+        class="mb-12 rounded-md"
+      />
+      <h1 class="mb-2 text-2xl font-bold md:text-3xl">{project.title}</h1>
+      <time class="mb-6 block text-sm">{project.date}</time>
+      <ContentRenderer content={project.content} />
+    </article>
+  </main>
+</MainLayout>

@@ -1,0 +1,21 @@
+---
+import { cn } from "@/lib/utils";
+
+interface Props {
+  content?: string;
+}
+const { content } = Astro.props;
+
+const styles = cn(
+  // base
+  "prose prose-invert text-foreground",
+  // a
+  "prose-a:text-link prose-a:hover:opacity-95 prose-a:active:opacity-90 transition-opacity",
+  // img
+  "prose-img:rounded-md prose-img:shadow-xl",
+);
+---
+
+<div class={styles}>
+  <Fragment set:html={content} />
+</div>
