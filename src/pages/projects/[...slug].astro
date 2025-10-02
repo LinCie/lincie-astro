@@ -1,5 +1,5 @@
 ---
-import { useStoryblokApi, renderRichText } from "@storyblok/astro";
+import { useStoryblokApi } from "@storyblok/astro";
 import { CldImage } from "astro-cloudinary";
 
 import MainLayout from "@/layouts/main.layout.astro";
@@ -39,7 +39,7 @@ const project = {
   }),
   description: story.content.description,
   slug: story.full_slug,
-  content: renderRichText(story.content.content, {}),
+  content: story.content.content,
 };
 ---
 
@@ -48,9 +48,10 @@ const project = {
     <article>
       <CldImage
         src={project.previewImageId}
+        loading="eager"
         width={1280}
         height={720}
-        alt={`Image for ${project.title}`}
+        alt={`Main Showcase for ${project.title}`}
         class="mb-12 rounded-md"
       />
       <h1 class="mb-2 text-2xl font-bold md:text-3xl">{project.title}</h1>
