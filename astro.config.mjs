@@ -13,6 +13,8 @@ import sitemap from "@astrojs/sitemap";
 
 import robotsTxt from "astro-robots-txt";
 
+import svelte from "@astrojs/svelte";
+
 const env = loadEnv("", process.cwd(), "STORYBLOK");
 
 // https://astro.build/config
@@ -24,6 +26,7 @@ export default defineConfig({
   },
 
   integrations: [
+    svelte(),
     icon(),
     storyblok({
       accessToken: env.STORYBLOK_TOKEN,
