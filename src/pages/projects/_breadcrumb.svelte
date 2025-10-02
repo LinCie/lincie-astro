@@ -7,7 +7,7 @@
 <Breadcrumb.Root>
   <Breadcrumb.List>
     <Breadcrumb.Item>
-      <Breadcrumb.Link href="/"
+      <Breadcrumb.Link href="/" aria-label="Home"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
