@@ -1,0 +1,81 @@
+---
+import type { GetStaticPaths } from "astro";
+import { useStoryblokApi } from "@storyblok/astro";
+import { CldImage } from "astro-cloudinary";
+
+import MainLayout from "@/components/layouts/MainLayout.astro";
+import Breadcrumb from "./_breadcrumb.svelte";
+import Pagination from "./_pagination.svelte";
+
+import type { ProjectStoriesResponse } from "@/types/project";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const storyblokApi = useStoryblokApi();
+
+  const { data }: { data: ProjectStoriesResponse } = await storyblokApi.get(
+    "cdn/stories",
+    {
+      version: "published",
+      content_type: "projects",
+      sort_by: "first_published_at:desc",
+    },
+  );
+
+  return paginate(data.stories, { pageSize: 10 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+const posts = page.data.map((story) => {
+  return {
+    previewImageId: story.content.preview_image_id,
+    title: story.content.title,
+    date: new Date(story.first_published_at).toLocaleDateString("en-US", {
+      dateStyle: "full",
+    }),
+    description: story.content.description,
+    slug: story.slug,
+  };
+});
+---
+
+<MainLayout>
+  <div>
+    <Breadcrumb client:idle />
+  </div>
+  <h1 id="projects-title" class="mb-6 text-xl font-semibold">🖥️ My Projects</h1>
+  <div>
+    <ul class="grid grid-cols-1 gap-6">
+      {
+        posts.map((post) => (
+          <li class="group bg-muted transform rounded-md p-4 shadow-md transition-transform hover:scale-101">
+            <a href={`/projects/${post.slug}`} class="block h-full w-full">
+              <div class="flex items-center gap-4">
+                <CldImage
+                  src={post.previewImageId}
+                  loading="lazy"
+                  width={200}
+                  height={200}
+                  alt={post.title}
+                  class="rounded-md object-cover transition group-hover:brightness-75"
+                />
+                <div class="flex-1">
+                  <h2 class="text-lg font-semibold">{post.title}</h2>
+                  <time class="text-sm opacity-80">{post.date}</time>
+                  <p class="mt-2 line-clamp-4 text-sm">{post.description}</p>
+                </div>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <Pagination
+    count={page.total}
+    perPage={page.size}
+    page={page.currentPage}
+    lastPage={page.lastPage}
+    client:visible
+  />
+</MainLayout>

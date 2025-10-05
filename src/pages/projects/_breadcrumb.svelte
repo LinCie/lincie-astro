@@ -21,12 +21,18 @@
       >
     </Breadcrumb.Item>
     <Breadcrumb.Separator />
-    <Breadcrumb.Item>
-      <Breadcrumb.Link href="/projects">Projects</Breadcrumb.Link>
-    </Breadcrumb.Item>
-    <Breadcrumb.Separator />
-    <Breadcrumb.Item>
-      <Breadcrumb.Page>{current}</Breadcrumb.Page>
-    </Breadcrumb.Item>
+    {#if current}
+      <Breadcrumb.Item>
+        <Breadcrumb.Link href="/projects/1">Projects</Breadcrumb.Link>
+      </Breadcrumb.Item>
+      <Breadcrumb.Separator />
+      <Breadcrumb.Item>
+        <Breadcrumb.Page>{current}</Breadcrumb.Page>
+      </Breadcrumb.Item>
+    {:else}
+      <Breadcrumb.Item>
+        <Breadcrumb.Page>Projects</Breadcrumb.Page>
+      </Breadcrumb.Item>
+    {/if}
   </Breadcrumb.List>
 </Breadcrumb.Root>
